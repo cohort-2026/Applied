@@ -1,13 +1,39 @@
-import { seedApplications } from "./data/seed";
-import { ApplicationList } from "./components/ApplicationList";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  Link,
+} from "react-router";
+import ApplicationsPage from "./pages/ApplicationsPage";
+import ApplicationPage from "./pages/ApplicationPage";
+import NewApplicationPage from "./pages/NewApplicationPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-function App() {
+function Layout() {
   return (
-    <main className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Applied - Job Tracker</h1>
-      <ApplicationList applications={seedApplications} />
-    </main>
+    <div>
+      <header>
+        <Link to="/">Applied</Link> | <Link to="/new">Add</Link>
+      </header>
+      <main>
+        <Outlet />
+      </main>
+    </div>
   );
 }
 
-export default App;
+const router = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      { path: "/", element: <ApplicationsPage /> },
+      { path: "/applications/:id", element: <ApplicationPage /> },
+      { path: "/new", element: <NewApplicationPage /> },
+      { path: "*", element: <NotFoundPage /> },
+    ],
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
