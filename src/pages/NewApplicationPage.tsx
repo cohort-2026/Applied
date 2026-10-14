@@ -1,64 +1,91 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function NewApplicationPage() {
-  const navigate = useNavigate();
-  const [company, setCompany] = useState("");
-  const [role, setRole] = useState("");
+export function NewApplicationPage() {
+  var [company, setCompany] = useState("");
+  var [role, setRole] = useState("");
+  var navigate = useNavigate();
 
   function handleSubmit(e: any) {
     e.preventDefault();
 
-    const newJob = {
+    var saved = localStorage.getItem("my-jobs");
+    var oldJobs = saved ? JSON.parse(saved) : [];
+
+    // fix: all required fields + lowercase stage
+    var newJob = {
       id: Date.now().toString(),
       company: company,
       role: role,
-      stage: "Applied",
+      stage: "applied",
       dateSent: new Date().toISOString().split("T")[0],
-      link: "",
-      notes: "",
-      nextAction: "",
+      createdAt: new Date().toISOString(),
     };
 
-    const saved = localStorage.getItem("my-jobs");
-    const oldJobs = saved ? JSON.parse(saved) : [];
-
-    const allJobs = [newJob, ...oldJobs];
-    localStorage.setItem("my-jobs", JSON.stringify(allJobs));
+    var updated = [...oldJobs, newJob];
+    localStorage.setItem("my-jobs", JSON.stringify(updated));
 
     navigate("/");
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <Link to="/">Back</Link>
-      <h1>Add New Job</h1>
+    <div
+      style={{
+        padding: "16px",
+        maxWidth: "600px",
+        margin: "0 auto",
+        backgroundColor: "white",
+      }}
+    >
+      <h1 style={{ color: "black" }}>Add Application</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <p>Company</p>
-          <input
-            value={company}
-            onChange={function (e) {
-              setCompany(e.target.value);
-            }}
-            placeholder="e.g. Microsoft"
-          />
-        </div>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          marginTop: "16px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
+        <input
+          value={company}
+          onChange={function (e: any) {
+            setCompany(e.target.value);
+          }}
+          placeholder="Company"
+          required
+          style={{
+            padding: "8px",
+            border: "1px solid gray",
+            borderRadius: "6px",
+          }}
+        />
+        <input
+          value={role}
+          onChange={function (e: any) {
+            setRole(e.target.value);
+          }}
+          placeholder="Role"
+          required
+          style={{
+            padding: "8px",
+            border: "1px solid gray",
+            borderRadius: "6px",
+          }}
+        />
 
-        <div style={{ marginTop: 10 }}>
-          <p>Role</p>
-          <input
-            value={role}
-            onChange={function (e) {
-              setRole(e.target.value);
-            }}
-            placeholder="e.g. Junior Developer"
-          />
-        </div>
-
-        <button type="submit" style={{ marginTop: 20 }}>
-          Save Job
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "blue",
+            color: "white",
+            padding: "10px",
+            borderRadius: "6px",
+            border: "none",
+          }}
+        >
+          Save
         </button>
       </form>
     </div>

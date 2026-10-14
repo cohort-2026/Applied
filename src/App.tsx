@@ -1,59 +1,18 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
-  Link,
-} from "react-router-dom";
-import ApplicationsPage from "./pages/ApplicationsPage";
-import ApplicationPage from "./pages/ApplicationPage";
-import NewApplicationPage from "./pages/NewApplicationPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import { Routes, Route } from "react-router-dom";
+import { ApplicationsPage } from "./pages/ApplicationsPage.tsx";
+import ApplicationPage from "./pages/ApplicationPage.tsx";
+import { NewApplicationPage } from "./pages/NewApplicationPage.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 
-function Layout() {
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.style.background = "black";
-    document.body.style.color = "white";
-  }
-
+function App() {
   return (
-    <div>
-      <header>
-        <Link to="/">Applied</Link> | <Link to="/new">Add</Link> |
-        <button
-          onClick={() => {
-            if (document.body.style.background === "black") {
-              document.body.style.background = "white";
-              document.body.style.color = "black";
-              localStorage.setItem("theme", "light");
-            } else {
-              document.body.style.background = "black";
-              document.body.style.color = "white";
-              localStorage.setItem("theme", "dark");
-            }
-          }}
-        >
-          dark light
-        </button>
-      </header>
-      <main>
-        <Outlet />
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<ApplicationsPage />} />
+      <Route path="/applications/:id" element={<ApplicationPage />} />
+      <Route path="/new" element={<NewApplicationPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      { path: "/", element: <ApplicationsPage /> },
-      { path: "/applications/:id", element: <ApplicationPage /> },
-      { path: "/new", element: <NewApplicationPage /> },
-      { path: "*", element: <NotFoundPage /> },
-    ],
-  },
-]);
-
-export default function App() {
-  return <RouterProvider router={router} />;
-}
+export default App;

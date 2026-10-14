@@ -1,24 +1,56 @@
-import type { Application } from "../types";
-import { daysSince, needsNudge } from "../lib/applications";
-import { StageBadge } from "./StageBadge";
+import { Link } from "react-router-dom";
 
 type Props = {
-  application: Application;
+  application: any;
 };
 
 export function ApplicationCard({ application }: Props) {
-  const days = daysSince(application.dateSent);
-  const nudge = needsNudge(application);
+  // days count
+  const sentDate = new Date(application.dateSent);
+  const today = new Date();
+  const diffDays = Math.floor(
+    (today.getTime() - sentDate.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  const showNudge = application.stage === "applied" && diffDays > 14;
 
   return (
-    <article className="rounded-lg border p-4">
-      <a href={"/applications/" + application.id}>
-        <h3 className="font-semibold">{application.company}</h3>
-      </a>
-      <p className="text-sm">{application.role}</p>
-      <StageBadge stage={application.stage} />
-      <p className="text-xs">Sent {days} days ago</p>
-      {nudge && <p className="text-xs font-semibold">Needs a nudge</p>}
-    </article>
+    <div
+      style={{
+        border: "1px solid gray",
+        padding: "12px",
+        borderRadius: "8px",
+        marginBottom: "10px",
+        backgroundColor: "white",
+      }}
+    >
+      <Link
+        to={`/applications/${application.id}`}
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <h3 style={{ margin: "0" }}>
+          {application.company} - {application.role}
+        </h3>
+      </Link>
+
+      <p style={{ fontSize: "12px", color: "gray", marginTop: "4px" }}>
+        Stage: {application.stage} | Sent: {application.dateSent} | {diffDays}{" "}
+        days ago
+      </p>
+
+      {showNudge && (
+        <span
+          style={{
+            backgroundColor: "hotpink",
+            color: "white",
+            padding: "2px 8px",
+            borderRadius: "10px",
+            fontSize: "11px",
+          }}
+        >
+          Needs a nudge
+        </span>
+      )}
+    </div>
   );
 }

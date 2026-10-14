@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { seedApplications } from "../data/seed";
+import { seed } from "../data/seed";
 
 export default function ApplicationPage() {
   var params = useParams();
@@ -16,8 +16,8 @@ export default function ApplicationPage() {
   for (var i = 0; i < myJobs.length; i++) {
     allJobs.push(myJobs[i]);
   }
-  for (var j = 0; j < seedApplications.length; j++) {
-    allJobs.push(seedApplications[j]);
+  for (var j = 0; j < seed.length; j++) {
+    allJobs.push(seed[j]);
   }
 
   var job: any = null;

@@ -1,7 +1,6 @@
 import type { Application } from "../types";
 
-// 7 sample jobs, 2 will show "Needs a nudge" because they are old and still "applied"
-export const seedApplications: Application[] = [
+export const seed: Application[] = [
   {
     id: "1",
     company: "Microsoft",

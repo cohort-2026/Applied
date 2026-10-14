@@ -1,48 +1,26 @@
 import type { Stage } from "../types";
 
-type Props = {
-  stage: Stage;
-};
-
-export function StageBadge({ stage }: Props) {
-  let bgColor = "bg-gray-200";
-  let textColor = "text-gray-800";
-
-  if (stage === "wishlist") {
-    bgColor = "bg-slate-200";
-    textColor = "text-slate-800";
+export function StageBadge(props: { stage: Stage }) {
+  var display = props.stage as string;
+  if (props.stage === "wishlist") {
+    display = "saved";
   }
 
-  if (stage === "applied") {
-    bgColor = "bg-blue-200";
-    textColor = "text-blue-800";
-  }
-
-  if (stage === "interview") {
-    bgColor = "bg-yellow-200";
-    textColor = "text-yellow-800";
-  }
-
-  if (stage === "offer") {
-    bgColor = "bg-green-200";
-    textColor = "text-green-800";
-  }
-
-  if (stage === "closed") {
-    bgColor = "bg-red-200";
-    textColor = "text-red-800";
-  }
+  var color = "border-gray-300 text-gray-500";
+  if (props.stage === "applied") color = "border-blue-600 text-blue-700";
+  if (props.stage === "interview") color = "border-yellow-600 text-yellow-700";
+  if (props.stage === "offer") color = "border-green-600 text-green-700";
+  if (props.stage === "closed") color = "border-gray-300 text-gray-500";
+  if (props.stage === "wishlist") color = "border-gray-300 text-gray-500";
 
   return (
     <span
       className={
-        bgColor +
-        " " +
-        textColor +
-        " rounded px-2 py-1 text-xs font-bold uppercase"
+        "text-[10px] font-bold px-2.5 py-1 rounded-full border bg-white " +
+        color
       }
     >
-      {stage}
+      {display.toUpperCase()}
     </span>
   );
 }
