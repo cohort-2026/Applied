@@ -15,7 +15,7 @@ export const seedApplications: Application[] = [
   {
     id: "2",
     company: "Telkom",
-    role: "Network Suppoert Intern",
+    role: "Network Support Intern",
     link: "https://aws.amazon.com/careers",
     dateSent: "2026-07-10",
     stage: "applied",

@@ -3,17 +3,37 @@ import {
   RouterProvider,
   Outlet,
   Link,
-} from "react-router";
+} from "react-router-dom";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import NewApplicationPage from "./pages/NewApplicationPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function Layout() {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.style.background = "black";
+    document.body.style.color = "white";
+  }
+
   return (
     <div>
       <header>
-        <Link to="/">Applied</Link> | <Link to="/new">Add</Link>
+        <Link to="/">Applied</Link> | <Link to="/new">Add</Link> |
+        <button
+          onClick={() => {
+            if (document.body.style.background === "black") {
+              document.body.style.background = "white";
+              document.body.style.color = "black";
+              localStorage.setItem("theme", "light");
+            } else {
+              document.body.style.background = "black";
+              document.body.style.color = "white";
+              localStorage.setItem("theme", "dark");
+            }
+          }}
+        >
+          dark light
+        </button>
       </header>
       <main>
         <Outlet />
